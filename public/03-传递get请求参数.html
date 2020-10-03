@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 第一个文本控件输入姓名，第二个输入年龄 -->
+    <!-- 点击提交按钮时，提交一个ajax请求，将姓名年龄作为请求传递到服务器 -->
+    <p>
+        <input type="text" name="" id="username">
+    </p>
+    <p>
+        <input type="text" name="" id="age">
+    </p>
+    <p>
+        <!-- 不是传统的表单提交，type不需是submit -->
+        <input type="button" name="" value="提交" id="btn">
+    </p>
+    <script type="text/javascript">
+        alert(2);
+        var username = document.getElementById('username');
+        var age = document.getElementById('age');
+        var btn = document.getElementById('btn');
+        btn.onclick = function() {
+            //创建ajax对象
+            var xhr = new XMLHttpRequest();
+            //获取客户端输入的信息
+            var nameValue = username.value;
+            var ageValue = age.value;
+            //拼接成请求参数
+            var params = `username=${nameValue}&age=${ageValue}`
+
+
+
+            //配置ajax对象,请求方式，请求地址
+            xhr.open('get', 'http://localhost:3000/get?' + params);
+            //发送请求
+            xhr.send();
+            //获取服务器端响应的数据
+            xhr.onload = function() {
+                console.log(xhr.responseText);
+            }
+        }
+    </script>
+</body>
+
+</html>

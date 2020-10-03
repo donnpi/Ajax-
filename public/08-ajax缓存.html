@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">发送ajax请求</button>
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function() {
+            var xhr = new XMLHttpRequest();
+            //低版本ie，如果请求的地址相同，会在缓存里获取数据
+            //解决;保证每一次的请求地址和上一次不一样，在请求地址后面加请求参数
+            xhr.open('get', "http://localhost:3000/cache?t=" + Math.random());
+            xhr.send();
+            //ie 低版本不兼容onload
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+
+                }
+            };
+
+        }
+    </script>
+</body>
+
+</html>

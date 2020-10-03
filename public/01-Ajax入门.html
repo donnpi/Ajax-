@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1,创建ajax对象：，帮助浏览器向服务器端发送请求的对象
+        var xhr = new XMLHttpRequest();
+        //2,告诉ajax对象，以什么方式，向哪发送请求(请求地址：路由地址)
+        xhr.open('get', 'http://localhost:3000/first');
+        //3，发送请求
+        //非即时，受网速影响
+        xhr.send();
+        //4,获取服务器端响应到客户端的数据
+        //onload 接受完服务器端的响应之后触发
+        xhr.onload = function() {
+
+            console.log(xhr.responseText);
+        }
+    </script>
+</body>
+
+</html>

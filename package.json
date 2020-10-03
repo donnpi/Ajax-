@@ -1,0 +1,21 @@
+{
+  "name": "ajax-learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parse": "^0.1.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:donnpi/ajax-learning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

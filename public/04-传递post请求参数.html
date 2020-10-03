@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        <input type="text" name="" id="username">
+    </p>
+    <p>
+        <input type="text" name="" id="age">
+    </p>
+    <p>
+        <!-- 不是传统的表单提交，type不需是submit -->
+        <input type="button" name="" value="提交" id="btn">
+    </p>
+    <script type="text/javascript">
+        var username = document.getElementById('username');
+        var age = document.getElementById('age');
+        var btn = document.getElementById('btn');
+        btn.onclick = function() {
+
+            var xhr = new XMLHttpRequest();
+
+            var nameValue = username.value;
+            var ageValue = age.value;
+            var params = `username=${nameValue}&age=${ageValue}`
+
+            xhr.open('post', 'http://localhost:3000/post');
+
+            //post请求必须要明确地设置请求参数的格式类型
+            //如果参数的格式是以上，那么就是固定的以下设定
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+            //post请求参数要放在send里
+            xhr.send(params);
+
+            xhr.onload = function() {
+                console.log(xhr.responseText);
+
+            }
+        }
+    </script>
+</body>
+
+</html>

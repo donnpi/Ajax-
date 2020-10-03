@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">发送ajax请求</button>
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', "http://localhost:3000/error");
+            xhr.send();
+            xhr.onload = function() {
+                console.log(xhr.responseText);
+                //获取http状态码 xhr.status
+                console.log(xhr.status);
+                if (xhr.status == 400) {
+                    alert('请求出错');
+                }
+            };
+            //网络中断时不会触发onload事件，会触发oneroor事件
+            xhr.onerror = function() {
+                alert('网络出错，无法发送ajax请求')
+            }
+        }
+    </script>
+</body>
+
+</html>
