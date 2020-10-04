@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>搜索框输入文字自动提示</title>
+    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
+        .container {
+            padding-top: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-inline">
+            <div class="form-group">
+                <select class="form-control" id="province">
+
+				</select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="city">
+					<option>请选择城市</option>
+				</select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="area">
+					<option>请选择县城</option>
+				</select>
+            </div>
+        </div>
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/template-web.js"></script>
+
+    <!-- 省份信息模板 -->
+    <script type="text/html" id="provinceTpl">
+        {{each province}}
+        <option value="{{$value.id}}">{{$value.name}} </option>
+        {{/each}}
+    </script>
+    <!-- 城市信息模板 -->
+    <script type="text/html" id="cityTpl">
+        {{each city}}
+        <option value="{{$value.id}}">{{$value.name}} </option>
+        {{/each}}
+    </script>
+    <!-- 区信息模板 -->
+    <script type="text/html" id="areaTpl">
+        {{each city}}
+        <option value="{{$value.id}}">{{$value.name}} </option>
+        {{/each}}
+    </script>
+    <script>
+        // 获取省市区下拉框元素
+        var province = document.getElementById('province');
+        var city = document.getElementById('city');
+        var area = document.getElementById('area');
+        //获取省份信息
+        ajax({
+                typr: 'get',
+                url: 'http://localhost:3000/province',
+                sucess: function(data) {
+                    var html = template('provinecTpl', {
+                        province: data
+                    });
+                    province.innerHTML = html;
+
+                }
+
+            })
+            //省份选项发生改变时，对应的城市发生变化
+        province.onchange = function() {
+            //清空区下拉框的数据
+            var html = template('areaTpl', {
+                area: []
+            });
+
+            //获取该省份id
+            var pid = this.value;
+            //获取城市信息
+            ajax({
+                type: 'get',
+                url: 'http://localhost:3000//cities',
+                data: {
+                    id: pid
+                },
+                sucess: function(data) {
+                    var html = template('cityTpl', {
+                        city: data
+                    });
+                    city.innerHTML = html;
+
+                }
+            });
+
+        };
+        city.onchange = function() {
+            var cid = this.value;
+            ajax({
+                type: 'get',
+                url: 'http://localhost:3000/areas',
+                data: {
+                    id: cid
+                },
+                sucess: function(data) {
+                    var html = template('areaTpl', {
+                        area: data
+                    });
+                    area.innerHTML = html;
+
+                }
+            });
+
+        }
+    </script>
+</body>
+
+</html>

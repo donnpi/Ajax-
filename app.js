@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 app.get('/first', (req, res) => {
-    res.send('Hello Ajax');
+    res.status(400).send('Hello Ajax');
 });
 app.get('/responseData', (req, res) => {
     res.send({
