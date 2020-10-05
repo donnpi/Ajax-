@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">点击发送请求</button>
+    <script>
+        function fn1(data) {
+            console.log('客户端的fn函数被调用');
+            console.log(data);
+        }
+    </script>
+    <!-- 1,将非同源服务器端的请求地址写在script的src中,响应内容（字符串）在script中会被当做js执行 -->
+    <!-- <script src="http://localhost:3001/better?callback=fn1">
+    </script> -->
+    <script>
+        //点击按钮时，动态发送请求
+        var btn = document.getElementById('btn');
+        btn.onclick = function() {
+            // //创建script标签
+            // var script = document.createElement('script');
+            // //设置src属性
+            // script.src = 'http://localhost:3001/better?callback=fn1';
+            // //将script追加到页面
+            // document.body.appendChild(script);
+            // //script将请求地址的内容加载完成后，这个script就没有存在的意义了
+            // script.onload = function() {
+            //     document.body.removeChild(this);
+            // }
+
+            jsonp({
+                url: 'http://localhost:3001/better',
+                success: function(data) {
+                    console.log(123);
+                    console.log(data);
+                },
+                data: {
+                    name: 'nico',
+                    age: 30
+                }
+            });
+        }
+
+        //封装jsonp方法
+        function jsonp(options) {
+            var script = document.createElement('script');
+
+            //处理函数名外的其他请求参数
+            var params = '';
+            for (var k in options.data) {
+                params += `&${k}=${options.data[k]}`;
+            }
+
+            //1,将其变成全局函数
+            //2,没有名字怎么办——给window对象添加属性
+            //每一次请求都要是不一样的函数名。否则后一个的会把前一个的覆盖
+            var fnName = 'myJsonp' + Math.random().toString().replace('.', '')
+            window[fnName] = options.success;
+            script.src = options.url + '?callback=' + fnName + params;
+            document.body.appendChild(script);
+            script.onload = function() {
+                document.body.removeChild(this);
+            }
+        }
+    </script>
+</body>
+
+</html>

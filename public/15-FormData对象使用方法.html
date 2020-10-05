@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 创建普通html表单,不需要action和method属性-->
+    <form id="form">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <!-- 这里不要submit，不然会有默认的提交行为 -->
+        <input type="button" id="btn" value="提交">
+    </form>
+    <script>
+        var btn = document.getElementById('btn');
+        var form = document.getElementById('form');
+        btn.onclick = function() {
+            //将普通html表单转换为表单对象
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest()
+            xhr.open('post', "http://localhost:3000/formdata");
+            xhr.send(formData);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>

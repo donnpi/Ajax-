@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 创建普通html表单,不需要action和method属性-->
+    <form id="form">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <!-- 这里不要submit，不然会有默认的提交行为 -->
+        <input type="button" id="btn" value="提交">
+    </form>
+    <script>
+        var btn = document.getElementById('btn');
+        var form = document.getElementById('form');
+        btn.onclick = function() {
+
+            var formData = new FormData(form);
+
+            //1，get('key')用来获取表单对象属性的值_value
+            console.log(formData.get('username'));
+
+            //2，set设置表单对象属性的值
+            formData.set('username', 'nico')
+                //不存在的属性会创立
+            formData.set('age', '21');
+            formData.append('username', 'lulu')
+
+            //3，delete 删除表单对象属性的值
+            //删除用户输入的密码,不会提交了
+            formData.delete('password')
+
+            var xhr = new XMLHttpRequest()
+            xhr.open('post', "http://localhost:3000/formdata");
+            xhr.send(formData);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            //4,append向表单对象追加属性值
+            //创建一个空的表单对象
+            var f = new FormData();
+            f.append('sex', 'female');
+            console.log(f.get('sex'));
+        }
+    </script>
+</body>
+
+</html>

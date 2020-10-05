@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
+        .container {
+            padding-top: 60px;
+        }
+        
+        .padding {
+            padding: 5px 0 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <label>请选择文件</label>
+            <input type="file" id="file">
+            <div class="padding" id="box">
+                <!--<img src="" class="img-rounded img-responsive">-->
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width: 0%;" id="bar">0%</div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //上传二进制文件
+        var file = document.getElementById('file');
+        //在用户选择文件时触发
+        file.onchange = function() {
+            //创建一个空的format表单对象
+            var formData = new FormData();
+            //将用户选择的文件，追加到formaData表单对象中，files是一个集合
+            formData.append('attrName', this.files[0]);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', 'http://localhost:3000/upload');
+
+            var bar = document.getElementById('bar');
+            //在upload对象中保存跟上传相关的一些事件
+            //onprogress,在文件上传的过程中持续触发
+            //ev:事件对象
+            xhr.upload.onprogress = function(ev) {
+                //ev.loaded 文件已经上传了多少
+                //ev.total 文件的总大小
+                //进度
+                var result = (ev.loaded / ev.total) * 100 + '%';
+                bar.style.width = result;
+                bar.innerText = result;
+                console.log(ev);
+            }
+
+            xhr.send(formData);
+
+            var box = document.getElementById('box');
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+
+                    //动态创建img表单
+                    var img = document.createElement('img');
+                    //给图片标签设置src属性
+                    img.src = result.path;
+                    //图片加载完后再显示在页面
+                    img.onload = function() {
+                        box.appendChild(img);
+                    }
+
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>
