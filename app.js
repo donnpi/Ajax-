@@ -17,6 +17,11 @@ app.get('/responseData', (req, res) => {
         name: 'nico'
     })
 });
+app.post('/responseData', (req, res) => {
+    res.send({
+        name: 'nico'
+    })
+});
 app.get('/get', (req, res) => {
     res.send(req.query);
 });
