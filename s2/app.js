@@ -5,11 +5,14 @@ const formidable = require('formidable');
 const { nextTick } = require('process');
 const app = express();
 
+const session = require('express-session');
+app.use(session({ secret: 'secret key' }));
+
 // 静态资源访问服务功能
 app.use(express.static(path.join(__dirname, 'public')));
 
 //cors开放跨域请求
-app.use((req, res) => {
+app.use((req, res, next) => {
     //1,允许那些客户端跨域访问我
 
     //响应头的属性名称，对应的值
@@ -17,8 +20,9 @@ app.use((req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     //2，允许客户端使用哪些方式访问我
     res.header('Access-Control-Allow-Methods', 'get,post');
-    res.send('ok');
-    next();
+    //允许客户端发动跨域请求时携带cookie信息
+    res.header('Access-Control-Allow-Credentials', true);
+    next()
 })
 
 
@@ -42,8 +46,25 @@ app.get('/better', (req, res) => {
     //可完成上述所有代码的工作
     res.jsonp({ name: 'nico', age: 20 })
 });
+app.post('/login', (req, res) => {
+    var form = formidable.IncomingForm();
+    form.parse(req, (err, fileds, file) => {
+        const { username, password } = fileds;
 
 
+        if (username == 'nico' && password == '12345') {
+            req.session.isLogin = true;
+            res.send({ message: '登录成功' });
+        } else {
+            res.send({ message: '登陆失败，用户名或密码错误' })
+        }
+
+    })
+
+
+
+
+})
 
 app.listen(3001);
 console.log('服务器启动成功');

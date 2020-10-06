@@ -72,6 +72,13 @@ app.post('/upload', (req, res) => {
             path: files.attrName.path.split('public')[1]
         });
     })
+});
+
+app.get('/jsonp', (req, res) => {
+    res.jsonp({
+        name: 'nico',
+        age: 50
+    })
 })
 
 app.listen(3000);

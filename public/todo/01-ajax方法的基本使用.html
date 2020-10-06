@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">发送请求</button>
+    <script src="/js/jquery.mini.js"></script>
+    <script>
+        var params = {
+            name: 'nico',
+            age: 234
+        }
+        $('#btn').on('click', function() {
+            $.ajax({
+                type: 'get',
+                //如果发送ajax请求的文件和请求的地址同源，可以去掉域信息
+                url: '/user',
+                //请求发送之前调用
+                beforeSend: function() {
+                    alert(1)
+                },
+                //携带请求参数
+                //会自动转换为get请求参数格式
+                // data: {
+                //     name: 'nico',
+                //     age: 32
+                // },
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+
+
+                //请求成功后会被调用，
+                success: function(response) {
+                    //response为服务器返回的数据，如果是json字符串，方法内部会自动将其转换为对象
+                    console.log(response);
+                },
+                //请求失败时被调用
+                error: function(xhr) {
+                    //请求失败时服务器返回一个ajax对象，包含错误信息
+                    console.log(xhr);
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

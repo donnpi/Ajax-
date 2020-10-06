@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">发送请求</button>
+    <script src="/js/jquery.mini.js"></script>
+    <script>
+        $('#btn').on('click', function() {
+            $.ajax({
+                url: '/jsonp',
+                //代表现在要发送的是jsonp请求
+                dataType: 'jsonp',
+                success: function(response) {
+                    console.log(response);
+                },
+
+                //可选属性
+                //1，修改传递函数名字的参数，有的服务器不用callback接收函数名，就用它改成规定的名称 
+                jsonp: 'cb',
+                //2，请求成功后不想调用默认的sucess，自定义一个函数名。一般用不上啦
+                jsonpCallback: 'fn'
+
+
+            })
+        })
+
+        function fn(response) {
+            console.log(response);
+        }
+    </script>
+</body>
+
+</html>

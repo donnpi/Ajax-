@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="form">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <input type="submit" value="提交">
+
+    </form>
+    <script src="/js/jquery.mini.js"></script>
+    <script>
+        $('#form').on('submit', function() {
+
+            //返回一个拼接好的字符串参数
+            //username=tom&password=12345
+            var params = $('#form').serialize();
+            console.log(params);
+            serializeObject($(this))
+                //阻止表单默认提交行为
+            return false;
+        })
+
+        //封装一个函数，将表单中用户输入的内容转换为对象类型
+        function serializeObject(obj) {
+            //
+            var params = obj.serializeArray();
+            console.log(params);
+
+            //将数组转换为对象类型
+            var result = {}
+            $.each(params, function(index, value) {
+                result[value.name] = value.value;
+            });
+            console.log(result);
+            return result;
+        }
+    </script>
+</body>
+
+</html>

@@ -20,6 +20,7 @@ app.get('/server', (req, res) => {
     });
 });
 
+
 // 监听端口
 app.listen(3000);
 // 控制台提示输出
